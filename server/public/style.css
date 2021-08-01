@@ -10,11 +10,13 @@ div {
 }
 body {
     background-color: rgb(150, 188, 221);
+    text-align: center;
 }
 
 #ledger {
     color:#032433;
     border: 1px solid coral;
+    text-align: center;
 }
 
 

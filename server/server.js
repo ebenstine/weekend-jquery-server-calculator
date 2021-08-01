@@ -32,6 +32,7 @@ app.post('/calc', (req, res) => {
     res.sendStatus(200);
 })
 
+
 function calculateEquation() {
     let number = 0;
 
@@ -49,6 +50,6 @@ function calculateEquation() {
 }
 
 function updateLedger() {
-    let equation = input[input.length - 1].firstNumber + ' ' + input[input.length - 1].operator + ' ' + input[input.length - 1].secondNumber + ' ' + '=' + ' ' + results[results.length - 1];
+    let equation = `${input[input.length -1].firstNumber}${' '}${input[input.length -1].operator}${' '}${input[input.length -1].secondNumber}${' '}${'='}${' '}${results[results.length - 1]}`;
     ledger.push(equation);
 }

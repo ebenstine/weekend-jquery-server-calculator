@@ -1,6 +1,7 @@
 console.log('In JS');
 let operator = 0;
 $(document).ready(onReady);
+//load up buttons so that they'll function on page load
 
 function onReady() {
     console.log('In JQ');
@@ -17,7 +18,7 @@ function onReady() {
 }
 
 
-
+//grab data from the DOM inputs
 function addEquation() {
     let newEquation = {
         firstNumber: $('#numberOne').val(),
@@ -25,6 +26,8 @@ function addEquation() {
         operator: operator,
     }
     console.log('Adding equation', newEquation);
+    //posting equation info /calc
+    //sending equation data to the server
     $.ajax({
         method: 'POST',
         url: '/calc',
