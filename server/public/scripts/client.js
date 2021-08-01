@@ -8,7 +8,7 @@ function onReady() {
     $('#subtract').on('click', subtract);
     $('#multiply').on('click', multiply);
     $('#divide').on('click', divide);
-    $('#clear').on('click', clear);
+    $('#clear').on('click', clearLedger);
     $('#equal').on('click', function(event) {
         event.preventDefault();
         addEquation();
@@ -31,16 +31,16 @@ function addEquation() {
         data: newEquation
     })
         .then(function(response) {
-            getHistory();
+            retrieveLedger();
         })
         .catch(function(error) {
             console.log('Error from server', error);
             alert('Equation NO GO');
         })
-    clear();
+    clearInputs();
 }
 
-function getHistory() {
+function retrieveLedger() {
     $.ajax({
         method: 'GET',
         url: '/calc'
@@ -57,36 +57,46 @@ function getHistory() {
 
 function render(object) {
     $('#output').empty();
-    $('#history').empty();
+    $('#ledger').empty();
 
     $('#output').append(`
-        <div>${object.result[object.result.length -1]}</div>
+        <div>${object.results[object.results.length -1]}</div>
         `)
 
-    for (let i = 0; i < object.history.length; i++) {
-        $('#history').append(`
-        <ul>${object.history[i]}</ul>
+    for (let i = 0; i < object.ledger.length; i++) {
+        $('#ledger').append(`
+        <ul>${object.ledger[i]}</ul>
         `) 
     }
 }
 function add() {
     operator = '+';
-    console.log('clicked', operator);
+    console.log('operating with', operator);
 }
 function subtract(){
     operator = '-';
-    console.log('clicked', operator);
+    console.log('operating with', operator);
 }
 function multiply(){
     operator = '*';
-    console.log('clicked', operator);
+    console.log('operating with', operator);
 }
 function divide(){
     operator = '/';
-    console.log('clicked', operator);
+    console.log('operating with', operator);
 }
-function clear(){
+function clearInputs(){
     $('#numberOne').val('');
     $('#numberTwo').val('');
     operator = 0;
+}
+
+function clearLedger(){
+    $.ajax({
+        method: 'DELETE',
+        url: '/calc',
+        data: {
+            "ledger":ledger
+        }
+    })
 }

@@ -11,27 +11,28 @@ app.listen(port, () => {
     console.log('listening on port', port);
 });
 let input = [];
-let result = [];
-let history = [];
+let results = [];
+let ledger = [];
 
 app.get('/calc', (req, res) => {
     console.log('in /calc GET');
     res.send({
-        result,
-        history
+        results,
+        ledger
     });
 })
 
 app.post('/calc', (req, res) => {
     console.log('in /calc POST', req.body);
     let newEquation = req.body;
+
     input.push(newEquation);
-    theCalculator();
-    equationHistory();
+    calculateEquation();
+    updateLedger();
     res.sendStatus(200);
 })
 
-function theCalculator() {
+function calculateEquation() {
     let number = 0;
 
     if (input[input.length - 1].operator === '+') {
@@ -43,11 +44,11 @@ function theCalculator() {
     } else if (input[input.length - 1].operator === '/') {
         number = input[input.length - 1].firstNumber / input[input.length - 1].secondNumber;
     }
-    result.push(number);
+    results.push(number);
 
 }
 
-function equationHistory() {
-    let equation = input[input.length - 1].firstNumber + ' ' + input[input.length - 1].operator + ' ' + input[input.length - 1].secondNumber + ' ' + '=' + ' ' + result[result.length - 1];
-    history.push(equation);
+function updateLedger() {
+    let equation = input[input.length - 1].firstNumber + ' ' + input[input.length - 1].operator + ' ' + input[input.length - 1].secondNumber + ' ' + '=' + ' ' + results[results.length - 1];
+    ledger.push(equation);
 }
