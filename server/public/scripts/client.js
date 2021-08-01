@@ -37,9 +37,10 @@ function addEquation() {
         .then(function(response) {
             retrieveLedger();
         })
+        //prohibits the post call if fields are unfilled
         .catch(function(error) {
             console.log('Error from server', error);
-            alert('Equation NO GO');
+            alert('Equation Not Ready');
         })
     //clear fields
     clearInputs();
