@@ -15,6 +15,9 @@ function onReady() {
     })
     
 }
+
+
+
 function addEquation() {
     let newEquation = {
         firstNumber: $('#numberOne').val(),
