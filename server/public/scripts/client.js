@@ -26,13 +26,14 @@ function addEquation() {
         operator: operator,
     }
     console.log('Adding equation', newEquation);
-    //posting equation info /calc
+    //posting equation info to /calc
     //sending equation data to the server
     $.ajax({
         method: 'POST',
-        url: '/calc',
+        url: '/calculation',
         data: newEquation
     })
+    //refresh data from the server only after the request is completed
         .then(function(response) {
             retrieveLedger();
         })
@@ -40,14 +41,18 @@ function addEquation() {
             console.log('Error from server', error);
             alert('Equation NO GO');
         })
+    //clear fields
     clearInputs();
 }
 
 function retrieveLedger() {
+    console.log('about to hit up AJAX');
+    //tell AJAX where to go
     $.ajax({
         method: 'GET',
-        url: '/calc'
+        url: '/calculation'
     })
+    //ony after the request is completed, 
         .then(function(response){
             console.log('Response from server', response);
             render(response);
@@ -57,7 +62,7 @@ function retrieveLedger() {
             alert('Sorry, could not get response. Try again later.');
         })
 }
-
+//render equation results with JQuery
 function render(object) {
     $('#output').empty();
     $('#ledger').empty();
@@ -65,13 +70,14 @@ function render(object) {
     $('#output').append(`
         <div>${object.results[object.results.length -1]}</div>
         `)
-
+//loop through the ledger and append
     for (let i = 0; i < object.ledger.length; i++) {
         $('#ledger').append(`
         <ul>${object.ledger[i]}</ul>
         `) 
     }
 }
+//functions to define operator abilities
 function add() {
     operator = '+';
     console.log('operating with', operator);
@@ -93,11 +99,11 @@ function clearInputs(){
     $('#numberTwo').val('');
     operator = 0;
 }
-
+//non-functional.
 function clearLedger(){
     $.ajax({
         method: 'DELETE',
-        url: '/calc',
+        url: '/calculation',
         data: {
             "ledger":ledger
         }
